@@ -1,11 +1,10 @@
 from os import listdir
 from os.path import isfile, join
 
-directory = 'filePlyRete/'
 
 def plyTotxt(directory, compressionLevel=12):
 
-    files = [f for f in listdir('filePlyRete/') if isfile(join('filePlyRete/', f))]
+    files = [f for f in listdir(directory) if isfile(join(directory, f))]
 
     for filename in files:
 
@@ -32,4 +31,6 @@ def plyTotxt(directory, compressionLevel=12):
 
                 j += 1
 
+
+directory = 'filePlyRete/'
 #plyTotxt(directory, 24)
