@@ -30,8 +30,8 @@ def visualize(iteration, error, X, Y, ax):
     plt.pause(0.001)
 
 def main():
-    X = np.loadtxt('data/bunny_target.txt')
-    Y = np.loadtxt('data/bunny_source.txt') #synthetic data, equaivalent to X + 1
+    X = np.loadtxt('groundtruth/Tester_1/Tester_1_pose_0.txt')
+    Y = np.loadtxt('data/Tester_1_pose_0_final_frontal.txt') #synthetic data, equaivalent to X + 1
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')

@@ -8,6 +8,8 @@ def plyTotxt(directory, compressionLevel=12):
 
     for filename in files:
 
+        print("Processing file --> " + filename)
+
         with open(directory + filename, 'rb') as ply:
 
             txt = open("data/" + filename[:-4] + ".txt", "w+")
@@ -33,4 +35,4 @@ def plyTotxt(directory, compressionLevel=12):
 
 
 directory = 'filePlyRete/'
-#plyTotxt(directory, 24)
+plyTotxt(directory, 24)
