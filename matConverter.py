@@ -4,7 +4,7 @@ from os import listdir, makedirs
 from os.path import isfile, join, isdir, exists
 
 
-def matTotxt(directory):
+def matTotxt(directory, compressionLevel=2):
 
     testers = [f for f in listdir(directory) if isdir(join(directory, f))]
 
@@ -28,13 +28,14 @@ def matTotxt(directory):
             txt = open("groundtruth/" + tester + "/" + tester + "_" + pose[:-4] + ".txt", "w+")
 
             for n in range(len(matlabFiles['vertex'][0])):
-                txt.write(str(- matlabFiles['vertex'][0][n]) + " " +
-                          str(- matlabFiles['vertex'][1][n]) + " " +
-                          str(- matlabFiles['vertex'][2][n]) + '\n')
+                if (n % compressionLevel) == 0:
+                    txt.write(str(- matlabFiles['vertex'][0][n]) + " " +
+                              str(- matlabFiles['vertex'][1][n]) + " " +
+                              str(- matlabFiles['vertex'][2][n]) + '\n')
 
 
 directory = 'faceWarehouse/'
-matTotxt(directory)
+matTotxt(directory, 2)
 
 
 '''
