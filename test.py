@@ -8,9 +8,9 @@ from allignment_rigid_3D import allignment_rigid
 # input = "100Iterations.txt"  #distance -> 8.754972041590518
 # input = "150Iterations.txt" #distance -> 8.73787880578837
 
-source = "data/Tester_1_pose_0_final_frontal.txt"
+source = "data/Tester_2_pose_0_final_frontal.txt"
 
-for k in range(1, 11):
+for k in range(1, 21):
 
     print("Ground truth image " + str(k))
 

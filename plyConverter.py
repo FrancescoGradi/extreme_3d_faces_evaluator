@@ -35,4 +35,4 @@ def plyTotxt(directory, compressionLevel=12):
 
 
 directory = 'filePlyRete/'
-plyTotxt(directory, 24)
+plyTotxt(directory, 42)

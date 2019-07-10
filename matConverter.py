@@ -35,7 +35,7 @@ def matTotxt(directory, compressionLevel=2):
 
 
 directory = 'faceWarehouse/'
-matTotxt(directory, 2)
+matTotxt(directory, 4)
 
 
 '''
