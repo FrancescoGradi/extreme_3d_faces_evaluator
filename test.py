@@ -14,7 +14,7 @@ threshold = 4
 caucasians = range(101, 142)
 
 with open("testResults.txt", "w+") as tr:
-    tr.write("Reference:    " + source[5:14] + '\n')
+    tr.write("Reference:    " + source[5:15] + '\n')
 
     for k in caucasians:
 
@@ -59,4 +59,4 @@ with open("testResults.txt", "w+") as tr:
         line = "Distance from tester " + str(k) + " --> " + str(sum(x for x in mins) / len(mins))
 
         print(line)
-        tr.write(line)
+        tr.write(line + '\n')
