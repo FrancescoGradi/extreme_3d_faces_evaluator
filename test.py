@@ -8,45 +8,55 @@ from allignment_rigid_3D import allignment_rigid
 # input = "100Iterations.txt"  #distance -> 8.754972041590518
 # input = "150Iterations.txt" #distance -> 8.73787880578837
 
-source = "data/Tester_2_pose_0_final_frontal.txt"
+source = "data/Tester_119_pose_0_final_frontal.txt"
+threshold = 4
 
-for k in range(1, 21):
+caucasians = range(101, 142)
 
-    print("Ground truth image " + str(k))
+with open("testResults.txt", "w+") as tr:
+    tr.write("Reference:    " + source[5:14] + '\n')
 
-    groundtruth = "groundtruth/Tester_" + str(k) + "/Tester_" + str(k) + "_pose_0.txt"
+    for k in caucasians:
 
-    allignment_rigid(target=groundtruth, source=source)
+        print("Ground truth image " + str(k))
 
-    with open("output.txt", 'r') as f:
-        f1_pts = []
-        f1_len = sum(1 for l1 in f)
-        f.close()
+        groundtruth = "groundtruth/Tester_" + str(k) + "/Tester_" + str(k) + "_pose_0.txt"
 
-    with open("output.txt", 'r') as f1:
+        allignment_rigid(target=groundtruth, source=source)
 
-        for i in range(f1_len):
-            line = f1.readline()
-            f1_pts.append(Point3D.Point3D(line))
+        with open("output.txt", 'r') as f:
+            f1_pts = []
+            f1_len = sum(1 for l1 in f)
+            f.close()
 
-    with open(groundtruth, 'r') as f_x:
-        f2_pts = []
-        f2_len = sum(1 for l2 in f_x)
-        f_x.close()
+        with open("output.txt", 'r') as f1:
 
-    with open(groundtruth, 'r') as f2:
+            for i in range(f1_len):
+                line = f1.readline()
+                f1_pts.append(Point3D.Point3D(line))
 
-        for i in range(f2_len):
-            line = f2.readline()
-            f2_pts.append(Point3D.Point3D(line))
+        with open(groundtruth, 'r') as f_x:
+            f2_pts = []
+            f2_len = sum(1 for l2 in f_x)
+            f_x.close()
 
-    print("Distance calculating")
+        with open(groundtruth, 'r') as f2:
 
-    mins = []
-    for pt in f1_pts:
-        dists = []
-        for pt2 in f2_pts:
-            dists.append(pt.distance(pt2))
-        mins.append(min(dists))
+            for i in range(f2_len):
+                line = f2.readline()
+                f2_pts.append(Point3D.Point3D(line))
 
-    print("Distance from tester " + str(k) + " --> " + str(sum(x for x in mins) / len(mins)))
+        print("Distance calculating")
+
+        mins = []
+        for pt in f1_pts:
+            dists = []
+            for pt2 in f2_pts:
+                dists.append(pt.distance(pt2))
+            if min(dists) < threshold:
+                mins.append(min(dists))
+
+        line = "Distance from tester " + str(k) + " --> " + str(sum(x for x in mins) / len(mins))
+
+        print(line)
+        tr.write(line)
