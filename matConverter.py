@@ -34,16 +34,7 @@ def matTotxt(directory, compressionLevel=2):
                               str(- matlabFiles['vertex'][2][n]) + '\n')
 
 
+compressionLevel = 4
+
 directory = 'faceWarehouse/'
-matTotxt(directory, 4)
-
-
-'''
-n = 151
-txt = open("faceWarehouseImages.txt", "w+")
-
-for i in range(1, n):
-    #for j in range(20):
-    txt.write("../faceWarehouse/Tester_" + str(i) + "/TrainingPose/Tester_" + str(i) + "_pose_0" + ".png" + "\n")
-    
-'''
+#matTotxt(directory, compressionLevel)

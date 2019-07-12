@@ -33,6 +33,7 @@ def plyTotxt(directory, compressionLevel=12):
 
                 j += 1
 
+compressionLevel = 42
 
 directory = 'filePlyRete/'
-plyTotxt(directory, 42)
+#plyTotxt(directory, compressionLevel)

@@ -1,5 +1,11 @@
+import time
+
+import numpy as np
+
 import Point3D
-from allignment_rigid_3D import allignment_rigid
+import matConverter
+import plyConverter
+from allignment_rigid_3D import allignment_rigid, max_iterations
 
 # data/20140420_011855_News1-Apr-25_final_frontal.txt
 # data/03f245cb652c103e1928b1b27028fadd--smith-glasses-too-faced_final_frontal.txt
@@ -8,55 +14,95 @@ from allignment_rigid_3D import allignment_rigid
 # input = "100Iterations.txt"  #distance -> 8.754972041590518
 # input = "150Iterations.txt" #distance -> 8.73787880578837
 
-source = "data/Tester_119_pose_0_final_frontal.txt"
 threshold = 4
 
-caucasians = range(101, 142)
+#caucasians = range(101, 142)
+caucasians = range(101, 104)
+
+start = time.time()
 
 with open("testResults.txt", "w+") as tr:
-    tr.write("Reference:    " + source[5:15] + '\n')
 
-    for k in caucasians:
+    tr.write("Parameters: " + "\n")
+    tr.write("-threshold = " + str(threshold) + "\n")
+    tr.write("-max_iterations = " + str(max_iterations) + "\n")
+    tr.write("-compressionLevel = " + str(plyConverter.compressionLevel) + ", " + str(matConverter.compressionLevel)
+             + "\n")
 
-        print("Ground truth image " + str(k))
+    truePositives = []
 
-        groundtruth = "groundtruth/Tester_" + str(k) + "/Tester_" + str(k) + "_pose_0.txt"
+    for tester in caucasians:
 
-        allignment_rigid(target=groundtruth, source=source)
+        source = "data/Tester_" + str(tester) + "_pose_0_final_frontal.txt"
+        results = dict()
 
-        with open("output.txt", 'r') as f:
-            f1_pts = []
-            f1_len = sum(1 for l1 in f)
-            f.close()
+        tr.write('\n')
+        tr.write("Reference:    " + source[5:15] + '\n')
 
-        with open("output.txt", 'r') as f1:
+        for k in caucasians:
 
-            for i in range(f1_len):
-                line = f1.readline()
-                f1_pts.append(Point3D.Point3D(line))
+            print("Ground truth image " + str(k))
 
-        with open(groundtruth, 'r') as f_x:
-            f2_pts = []
-            f2_len = sum(1 for l2 in f_x)
-            f_x.close()
+            groundtruth = "groundtruth/Tester_" + str(k) + "/Tester_" + str(k) + "_pose_0.txt"
 
-        with open(groundtruth, 'r') as f2:
+            allignment_rigid(target=groundtruth, source=source)
 
-            for i in range(f2_len):
-                line = f2.readline()
-                f2_pts.append(Point3D.Point3D(line))
+            with open("output.txt", 'r') as f:
+                f1_pts = []
+                f1_len = sum(1 for l1 in f)
+                f.close()
 
-        print("Distance calculating")
+            with open("output.txt", 'r') as f1:
 
-        mins = []
-        for pt in f1_pts:
-            dists = []
-            for pt2 in f2_pts:
-                dists.append(pt.distance(pt2))
-            if min(dists) < threshold:
-                mins.append(min(dists))
+                for i in range(f1_len):
+                    line = f1.readline()
+                    f1_pts.append(Point3D.Point3D(line))
 
-        line = "Distance from tester " + str(k) + " --> " + str(sum(x for x in mins) / len(mins))
+            with open(groundtruth, 'r') as f_x:
+                f2_pts = []
+                f2_len = sum(1 for l2 in f_x)
+                f_x.close()
 
-        print(line)
-        tr.write(line + '\n')
+            with open(groundtruth, 'r') as f2:
+
+                for i in range(f2_len):
+                    line = f2.readline()
+                    f2_pts.append(Point3D.Point3D(line))
+
+            print("Distance calculating")
+
+            mins = []
+            for pt in f1_pts:
+                dists = []
+                for pt2 in f2_pts:
+                    dists.append(pt.distance(pt2))
+                if min(dists) < threshold:
+                    mins.append(min(dists))
+
+            distTot = sum(x for x in mins) / len(mins)
+            results[k] = distTot
+
+            line = "Distance from tester " + str(k) + " --> " + str(distTot)
+
+            print(line)
+            tr.write(line + '\n')
+
+        argMin = np.infty
+        minDist = np.infty
+        for key in results.keys():
+            if results[key] < minDist:
+                minDist = results[key]
+                argMin = key
+
+        if argMin == tester:
+            tr.write("Corrected classification of tester " + str(tester) + "\n")
+            truePositives.append(argMin)
+        else:
+            tr.write("Wrong classification of tester " + str(tester) + " with tester " + str(argMin) + "\n")
+
+    tr.write("\n")
+    tr.write("Success rate --> " + str((len(truePositives) / len(caucasians)) * 100) + "\n")
+
+    end = time.time()
+    print(str(end - start))
+    tr.write("Time elapsed: " + str(end - start))
