@@ -21,7 +21,7 @@ distance = None
 
 #caucasians = range(101, 142)
 #caucasians = range(101, 116)
-caucasians = range(101, 104)
+caucasians = range(1, 2)
 
 start = time.time()
 
