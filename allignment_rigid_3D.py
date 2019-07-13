@@ -5,7 +5,7 @@ from pycpd import rigid_registration
 import numpy as np
 import time, sys
 
-max_iterations = 100
+max_iterations = 300
 
 def saveNormalizedTxt(Y):
 
@@ -37,7 +37,7 @@ def saveData(iteration, error, X, Y):
     saveNormalizedTxt(Y)
 
 
-def allignment_rigid(target, source, visualization=False):
+def alignment_rigid(target, source, visualization=False):
     X = np.loadtxt(target)
     Y = np.loadtxt(source) #synthetic data, equaivalent to X + 1
 
