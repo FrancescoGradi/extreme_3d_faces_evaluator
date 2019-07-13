@@ -69,7 +69,7 @@ with open("testResults.txt", "w+") as tr:
                     line = f2.readline()
                     f2_pts.append(Point3D.Point3D(line))
 
-            print("Distance calculating")
+            print("Calculating distance")
 
             mins = []
             for pt in f1_pts:
