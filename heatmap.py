@@ -1,6 +1,7 @@
 import Point3D
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
+from mpl_toolkits.mplot3d import Axes3D
 
 
 def generate_heatmap(aligned_cloud_path, gt_path):
@@ -52,3 +53,6 @@ def generate_heatmap(aligned_cloud_path, gt_path):
                     norm=colors.LogNorm(vmin=min(mins), vmax=max(mins)), lw=0, s=20)
     plt.colorbar(AX)
     plt.show()
+
+
+generate_heatmap("output.txt", "groundtruth/Tester_1/Tester_1_pose_0.txt")
