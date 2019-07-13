@@ -1,6 +1,7 @@
 import Point3D
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
+from mpl_toolkits.mplot3d import Axes3D
 
 
 def generate_heatmap(aligned_cloud_path, gt_path):
@@ -46,9 +47,14 @@ def generate_heatmap(aligned_cloud_path, gt_path):
         y2_pts.append(pt2.y)
         z2_pts.append(pt2.z)
 
-    fig = plt.figure()
-    ax = fig.gca(projection='3d')
+    fig = plt.figure(figsize=plt.figaspect(0.5))
+    ax = fig.add_subplot(1, 2, 1, projection='3d', title='Logarithmic scale')
     AX = ax.scatter(x2_pts, y2_pts, z2_pts, c=mins, cmap='gist_rainbow',
-                    norm=colors.LogNorm(vmin=min(mins), vmax=max(mins)), lw=0, s=20)
+                    norm=colors.LogNorm(vmin=1, vmax=10), lw=0, s=20)
+    plt.colorbar(AX)
+    ax = fig.add_subplot(1, 2, 2, projection='3d', title='Linear scale')
+    AX = ax.scatter(x2_pts, y2_pts, z2_pts, c=mins, cmap='gist_rainbow', lw=0, s=20)
     plt.colorbar(AX)
     plt.show()
+
+generate_heatmap('output.txt', 'groundtruth/Tester_3/Tester_3_pose_0.txt')

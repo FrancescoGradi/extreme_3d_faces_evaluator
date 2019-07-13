@@ -52,7 +52,7 @@ with open("testResults.txt", "w+") as tr:
 
             allignment_rigid(target=groundtruth, source=source)
 
-            print("Distance calculating")
+            print("Calculating distance")
 
             if distance == "hausdorff":
                 distTot = hausdorffDistance(target=groundtruth, source="output.txt")

@@ -55,4 +55,4 @@ def allignment_rigid(target, source, visualization=False):
         reg = rigid_registration(**{'X': X, 'Y': Y}, max_iterations=max_iterations)
         reg.register(callback)
 
-allignment_rigid('groundtruth/Tester_3/Tester_3_pose_0.txt', 'data/Tester_3_pose_0_final_frontal.txt')
+alignment_rigid('groundtruth/Tester_3/Tester_3_pose_0.txt', 'data/Tester_3_pose_0_final_frontal.txt')
