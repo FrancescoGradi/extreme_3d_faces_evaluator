@@ -2,9 +2,9 @@ import time
 
 import numpy as np
 
-import Point3D
 import matConverter
 import plyConverter
+from distances import averageDistance, hausdorffDistance
 from allignment_rigid_3D import allignment_rigid, max_iterations
 
 # data/20140420_011855_News1-Apr-25_final_frontal.txt
@@ -16,7 +16,10 @@ from allignment_rigid_3D import allignment_rigid, max_iterations
 
 threshold = 4
 
+distance = "hausdorff"
+
 #caucasians = range(101, 142)
+#caucasians = range(101, 116)
 caucasians = range(101, 104)
 
 start = time.time()
@@ -28,6 +31,8 @@ with open("testResults.txt", "w+") as tr:
     tr.write("-max_iterations = " + str(max_iterations) + "\n")
     tr.write("-compressionLevel = " + str(plyConverter.compressionLevel) + ", " + str(matConverter.compressionLevel)
              + "\n")
+    if distance == "hausdorff":
+        tr.write("-hausdorff" + "\n")
 
     truePositives = []
 
@@ -47,39 +52,13 @@ with open("testResults.txt", "w+") as tr:
 
             allignment_rigid(target=groundtruth, source=source)
 
-            with open("output.txt", 'r') as f:
-                f1_pts = []
-                f1_len = sum(1 for l1 in f)
-                f.close()
-
-            with open("output.txt", 'r') as f1:
-
-                for i in range(f1_len):
-                    line = f1.readline()
-                    f1_pts.append(Point3D.Point3D(line))
-
-            with open(groundtruth, 'r') as f_x:
-                f2_pts = []
-                f2_len = sum(1 for l2 in f_x)
-                f_x.close()
-
-            with open(groundtruth, 'r') as f2:
-
-                for i in range(f2_len):
-                    line = f2.readline()
-                    f2_pts.append(Point3D.Point3D(line))
-
             print("Distance calculating")
 
-            mins = []
-            for pt in f1_pts:
-                dists = []
-                for pt2 in f2_pts:
-                    dists.append(pt.distance(pt2))
-                if min(dists) < threshold:
-                    mins.append(min(dists))
+            if distance == "hausdorff":
+                distTot = hausdorffDistance(target=groundtruth, source="output.txt")
+            else:
+                distTot = averageDistance(target=groundtruth, source="output.txt", threshold=threshold)
 
-            distTot = sum(x for x in mins) / len(mins)
             results[k] = distTot
 
             line = "Distance from tester " + str(k) + " --> " + str(distTot)

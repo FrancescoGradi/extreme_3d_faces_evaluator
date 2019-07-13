@@ -1,6 +1,5 @@
 import math
 
-
 class Point3D:
 
     def __init__(self, coords_str):
@@ -20,5 +19,3 @@ class Point3D:
     def distance(self, point):
 
         return math.sqrt(pow((self.x - point.x), 2) + pow((self.y - point.y), 2) + pow((self.z - point.z), 2))
-
-
