@@ -16,7 +16,8 @@ from allignment_rigid_3D import allignment_rigid, max_iterations
 
 threshold = 4
 
-distance = "hausdorff"
+#distance = "hausdorff"
+distance = None
 
 #caucasians = range(101, 142)
 #caucasians = range(101, 116)
