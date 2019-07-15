@@ -76,5 +76,5 @@ compressionLevel = 2
 radius = 70
 
 directory = 'faceWarehouse/'
-matTotxt(directory, compressionLevel, radius)
+#matTotxt(directory, compressionLevel, radius)
 #matTotxtLandmarks(directory)

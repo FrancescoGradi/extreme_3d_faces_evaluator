@@ -3,7 +3,7 @@ import numpy as np
 from scipy.spatial.distance import directed_hausdorff
 
 
-def averageDistance(target, source, threshold):
+def averageDistance(target, source):
 
     with open(source, 'r') as f:
         f1_pts = []
@@ -32,8 +32,7 @@ def averageDistance(target, source, threshold):
         dists = []
         for pt2 in f2_pts:
             dists.append(pt.distance(pt2))
-        if min(dists) < threshold:
-            mins.append(min(dists))
+        mins.append(min(dists))
 
     return sum(x for x in mins) / len(mins)
 
