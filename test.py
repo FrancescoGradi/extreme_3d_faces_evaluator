@@ -5,7 +5,7 @@ import numpy as np
 import matConverter
 import plyConverter
 from distances import averageDistance, hausdorffDistance
-from alignment_rigid_3D import allignment_rigid, max_iterations
+from alignment_rigid_3D import alignment_rigid, max_iterations
 
 # data/20140420_011855_News1-Apr-25_final_frontal.txt
 # data/03f245cb652c103e1928b1b27028fadd--smith-glasses-too-faced_final_frontal.txt
@@ -51,7 +51,7 @@ with open("testResults.txt", "w+") as tr:
 
             groundtruth = "groundtruth/Tester_" + str(k) + "/Tester_" + str(k) + "_pose_0.txt"
 
-            allignment_rigid(target=groundtruth, source=source)
+            alignment_rigid(target=groundtruth, source=source)
 
             print("Calculating distance")
 

@@ -1,5 +1,14 @@
 import Point3D
 import numpy as np
+import math
+
+
+def is_in_range(radius, x, y, z, x_center=-1.8155, y_center=-7.8562, z_center=133.009995):
+
+    if math.sqrt(pow((x - x_center), 2) + pow((y - y_center), 2) + pow((z - z_center), 2)) < radius:
+        return True
+    else:
+        return False
 
 
 def distances(f_pts, f_len):
@@ -11,6 +20,7 @@ def distances(f_pts, f_len):
                 dists[x].append(dist)
     return dists
 
+
 def uniform_sampling(file_path, compressionLevel=1):
 
     f_pts = []
@@ -18,7 +28,6 @@ def uniform_sampling(file_path, compressionLevel=1):
     with open(file_path, 'r') as f:
         f_len = sum(1 for l in f)
         f.close()
-
 
     with open(file_path, 'r') as f:
 

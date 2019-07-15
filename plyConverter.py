@@ -1,8 +1,11 @@
 from os import listdir
 from os.path import isfile, join
+from utils import is_in_range
+
+import math
 
 
-def plyTotxt(directory, compressionLevel=12):
+def plyTotxt(directory, compressionLevel=12, radius=25):
 
     files = [f for f in listdir(directory) if isfile(join(directory, f))]
 
@@ -29,11 +32,18 @@ def plyTotxt(directory, compressionLevel=12):
 
                 elif line.split()[0] is not b'3' and (j % compressionLevel) == 0:
                     text = str(line)
-                    txt.write(text[2:-3] + '\n')
+                    text = text[2:-3]
+                    coordinates = text.split(sep=" ")
+
+                    if is_in_range(radius, x=(float)(coordinates[0]), y=(float)(coordinates[1]),
+                                 z=(float)(coordinates[2])):
+                        txt.write(text + '\n')
 
                 j += 1
 
-compressionLevel = 50
+
+compressionLevel = 16
+radius = 70
 
 directory = 'filePlyRete/'
-plyTotxt(directory, compressionLevel)
+plyTotxt(directory, compressionLevel, radius)

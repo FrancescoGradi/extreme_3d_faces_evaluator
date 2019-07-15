@@ -5,7 +5,7 @@ from pycpd import rigid_registration
 import numpy as np
 import time, sys
 
-max_iterations = 300
+max_iterations = 100
 
 def saveNormalizedTxt(Y):
 
@@ -55,4 +55,4 @@ def alignment_rigid(target, source, visualization=False):
         reg = rigid_registration(**{'X': X, 'Y': Y}, max_iterations=max_iterations)
         reg.register(callback)
 
-alignment_rigid('groundtruth/Tester_3/Tester_3_pose_0.txt', 'data/Tester_3_pose_0_final_frontal.txt')
+#alignment_rigid('groundtruth/Tester_3/Tester_3_pose_0.txt', 'data/Tester_3_pose_0_final_frontal.txt')
