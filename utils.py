@@ -23,7 +23,7 @@ def distances(f_pts, f_len):
     return dists
 
 
-def uniform_sampling(directory, filename, compression_level=1):
+def uniform_sampling(directory, filename, compression_level=1, radius=25):
 
     start = time.time()
 
@@ -33,16 +33,18 @@ def uniform_sampling(directory, filename, compression_level=1):
 
         lines = f.readlines()
         i = 0
-        j = 0
 
         for line in lines:
             if i < 9:
                 i += 1
                 continue
             elif line.split()[0] is not b'3':
-                f_pts.append([float(line.split()[0]), float(line.split()[1]), float(line.split()[2])])
+                text = str(line)
+                text = text[2:-3]
+                coords = text.split(sep=" ")
+                if is_in_range(radius, x=float(coords[0]), y=float(coords[1]), z=float(coords[2])):
+                    f_pts.append([float(coords[0]), float(coords[1]), float(coords[2])])
 
-            j += 1
     # This takes care of the '-nan' issue
     if filename == 'Tester_125_pose_0_final_frontal.ply':
         to_pop = []
@@ -68,10 +70,10 @@ def uniform_sampling(directory, filename, compression_level=1):
 
     with open('data/' + f_name + '.txt', 'w+') as f:
         for el in decimated_cloud:
-            f.write(str(el[0]) + " " + str(el[1]) + " " + str(el[2]) + "\n")
+            if is_in_range(radius, x=float(el[0]), y=float(el[1]), z=float(el[2])):
+                f.write(str(el[0]) + " " + str(el[1]) + " " + str(el[2]) + "\n")
 
     print("Length after sampling: " + str(decimated_cloud.shape[0]))
 
     print('elapsed time: ' + str(time.time() - start) + ' seconds.')
-
 
