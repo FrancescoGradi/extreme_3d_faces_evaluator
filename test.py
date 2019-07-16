@@ -12,7 +12,7 @@ def classification_test(testers, distance=None):
 
     start = time.time()
 
-    with open("testResults.txt", "w+") as tr:
+    with open("classificationTestResults.txt", "w+") as tr:
 
         tr.write("Parameters: " + "\n")
         tr.write("-max_iterations = " + str(max_iterations) + "\n")
@@ -35,7 +35,7 @@ def classification_test(testers, distance=None):
 
             for k in testers:
 
-                print("Ground truth image " + str(k))
+                print("Alignment with " + str(k))
 
                 groundtruth = "groundtruth/Tester_" + str(k) + "/Tester_" + str(k) + "_pose_0.txt"
 
@@ -46,7 +46,7 @@ def classification_test(testers, distance=None):
                 if distance == "hausdorff":
                     distTot = hausdorffDistance(target=groundtruth, source="output.txt")
                 else:
-                    distTot = averageDistance(target=groundtruth, source="output.txt")
+                    distTot = averageDistance(target=groundtruth, source="output.txt")[1]
 
                 results[k] = distTot
 
@@ -76,7 +76,69 @@ def classification_test(testers, distance=None):
         tr.write("Time elapsed: " + str(end - start))
 
 
-#caucasians = range(101, 142)
-caucasians = range(101, 103)
+def distancesTest(testers, poses):
 
-classification_test(caucasians)
+    start = time.time()
+
+    with open("distancesTestResult.txt", "w+") as tr:
+
+        tr.write("Parameters: " + "\n")
+        tr.write("-max_iterations = " + str(max_iterations) + "\n")
+        tr.write("-compressionLevel = " + str(plyConverter.compressionLevel) + ", " + str(matConverter.compressionLevel)
+                 + "\n")
+        tr.write("-radius from nose = " + str(plyConverter.radius) + "\n")
+
+        for tester in testers:
+            for pose in poses:
+
+                source = "data/Tester_" + str(tester) + "_pose_" + str(pose) + "_final_frontal.txt"
+                target = "groundtruth/Tester_" + str(tester) + "/Tester_" + str(tester) + "_pose_" + str(pose) + ".txt"
+
+                tr.write("\n")
+                tr.write("\n")
+                tr.write("Tester " + str(tester) + " with pose " + str(pose) + "\n")
+
+                tr.write("\n")
+                tr.write("Distances from groundtruth to source:" + "\n")
+
+                print("Alignment " + str(tester) + " with pose " + str(pose))
+
+                alignment_rigid(target, source)
+
+                print("Distance calculation of " + str(tester) + " with pose " + str(pose)
+                      + " from groundtruth to source")
+
+                mn, avg, mx, median = averageDistance(target, "output.txt")
+
+                tr.write("Min --> " + str(mn) + "\n")
+                tr.write("Average --> " + str(avg) + "\n")
+                tr.write("Max --> " + str(mx) + "\n")
+                tr.write("Median --> " + str(median) + "\n")
+
+                tr.write("\n")
+                tr.write("Distances from source to groundtruth:" + "\n")
+
+                print("Distance calculation of " + str(tester) + " with pose " + str(pose)
+                      + " from source to groundtruth")
+
+                mn, avg, mx, median = averageDistance("output.txt", target)
+
+                tr.write("Min --> " + str(mn) + "\n")
+                tr.write("Average --> " + str(avg) + "\n")
+                tr.write("Max --> " + str(mx) + "\n")
+                tr.write("Median --> " + str(median) + "\n")
+
+        end = time.time()
+        print(str(end - start))
+        tr.write("\n")
+        tr.write("\n")
+        tr.write("Time elapsed: " + str(end - start))
+
+
+#caucasians = range(101, 142)
+caucasians = range(1, 2)
+poses = [0]
+
+#classification_test(caucasians)
+
+distancesTest(caucasians, poses)

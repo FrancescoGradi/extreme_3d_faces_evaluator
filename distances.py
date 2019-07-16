@@ -34,7 +34,9 @@ def averageDistance(target, source):
             dists.append(pt.distance(pt2))
         mins.append(min(dists))
 
-    return sum(x for x in mins) / len(mins)
+    # return min, average, max, median
+
+    return min(mins), sum(x for x in mins) / len(mins), max(mins), np.median(mins)
 
 
 def hausdorffDistance(target, source):

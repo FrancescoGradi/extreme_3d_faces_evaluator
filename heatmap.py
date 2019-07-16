@@ -58,9 +58,9 @@ def generate_heatmap(aligned_cloud_path, gt_path):
     plt.colorbar(AX)
     plt.show()
 
-"""
-target = 'groundtruth/Tester_3/Tester_3_pose_0.txt'
-source = "data/Tester_3_pose_0_final_frontal.txt"
+
+target = 'groundtruth/Tester_1/Tester_1_pose_0.txt'
+source = "data/Tester_1_pose_0_final_frontal.txt"
 alignment_rigid(target, source)
 generate_heatmap('output.txt', target)
-"""
+
