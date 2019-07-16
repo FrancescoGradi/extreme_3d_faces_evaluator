@@ -1,6 +1,8 @@
-import Point3D
 import numpy as np
 import math
+import time
+import re
+from sklearn.neighbors import NearestNeighbors
 
 
 def is_in_range(radius, x, y, z, x_center=-1.8155, y_center=-7.8562, z_center=133.009995):
@@ -21,15 +23,13 @@ def distances(f_pts, f_len):
     return dists
 
 
-def uniform_sampling(file_path, compressionLevel=1):
+def uniform_sampling(directory, filename, compression_level=1):
+
+    start = time.time()
 
     f_pts = []
 
-    with open(file_path, 'r') as f:
-        f_len = sum(1 for l in f)
-        f.close()
-
-    with open(file_path, 'r') as f:
+    with open(directory + filename, 'rb') as f:
 
         lines = f.readlines()
         i = 0
@@ -39,19 +39,39 @@ def uniform_sampling(file_path, compressionLevel=1):
             if i < 9:
                 i += 1
                 continue
-            elif line.split()[0] is not b'3' and (j % compressionLevel) == 0:
-                f_pts.append(Point3D.Point3D(line))
+            elif line.split()[0] is not b'3':
+                f_pts.append([float(line.split()[0]), float(line.split()[1]), float(line.split()[2])])
 
             j += 1
+    # This takes care of the '-nan' issue
+    if filename == 'Tester_125_pose_0_final_frontal.ply':
+        to_pop = []
+        for x in range(len(f_pts)):
+            if str(f_pts[x][0]) == 'nan':
+                to_pop.append(x)
+        for x in reversed(to_pop):
+            f_pts.pop(x)
 
-    dists = distances(f_pts, f_len)
+    np_f_pts = np.asarray(f_pts, dtype=list)
+    print("Length before sampling: " + str(np_f_pts.shape[0]))
+    nbrs = NearestNeighbors(n_neighbors=compression_level, algorithm='ball_tree').fit(np_f_pts)
+    distances, indices = nbrs.kneighbors(np_f_pts)
 
-    print("Length before sampling: " + str(len(dists)))
-    for dist_array in dists:
-        np_dist = np.array(dist_array)
-        indices = np.argsort(np_dist)[:12]
-        for x in indices:
-            if x < len(dists):
-                dists.pop(x)
+    retained_idx = np.ones(np_f_pts.shape[0])
+    for i in range(np_f_pts.shape[0]):
+        if retained_idx[i] == 1:
+            retained_idx[indices[i][2:]] = 0
 
-    print("Length after sampling: " + str(len(dists)))
+    decimated_cloud = np_f_pts[retained_idx != 0]
+
+    f_name = re.sub('\.ply$', '', filename)
+
+    with open('data/' + f_name + '.txt', 'w+') as f:
+        for el in decimated_cloud:
+            f.write(str(el[0]) + " " + str(el[1]) + " " + str(el[2]) + "\n")
+
+    print("Length after sampling: " + str(decimated_cloud.shape[0]))
+
+    print('elapsed time: ' + str(time.time() - start) + ' seconds.')
+
+
