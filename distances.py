@@ -61,4 +61,4 @@ def hausdorffDistance(target, source):
 
     data = np.delete(gt, 0, 0)
 
-    return max(directed_hausdorff(data, gt)[0], directed_hausdorff(gt, data)[0])
+    return directed_hausdorff(gt, data)[0]

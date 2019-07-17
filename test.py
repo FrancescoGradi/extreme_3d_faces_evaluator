@@ -105,28 +105,32 @@ def distancesTest(testers, poses):
 
                 alignment_rigid(target, source)
 
-                print("Distance calculation of " + str(tester) + " with pose " + str(pose)
+                print("Distance calculation of Tester " + str(tester) + " with pose " + str(pose)
                       + " from groundtruth to source")
 
                 mn, avg, mx, median = averageDistance(target, "output.txt")
+                hausdorff = hausdorffDistance(target, "output.txt")
 
                 tr.write("Min --> " + str(mn) + "\n")
                 tr.write("Average --> " + str(avg) + "\n")
                 tr.write("Max --> " + str(mx) + "\n")
                 tr.write("Median --> " + str(median) + "\n")
+                tr.write("Hausdorff distance --> " + str(hausdorff) + "\n")
 
                 tr.write("\n")
                 tr.write("Distances from source to groundtruth:" + "\n")
 
-                print("Distance calculation of " + str(tester) + " with pose " + str(pose)
+                print("Distance calculation of Tester " + str(tester) + " with pose " + str(pose)
                       + " from source to groundtruth")
 
                 mn, avg, mx, median = averageDistance("output.txt", target)
+                hausdorff = hausdorffDistance("output.txt", target)
 
                 tr.write("Min --> " + str(mn) + "\n")
                 tr.write("Average --> " + str(avg) + "\n")
                 tr.write("Max --> " + str(mx) + "\n")
                 tr.write("Median --> " + str(median) + "\n")
+                tr.write("Hausdorff distance --> " + str(hausdorff) + "\n")
 
         end = time.time()
         print(str(end - start))
