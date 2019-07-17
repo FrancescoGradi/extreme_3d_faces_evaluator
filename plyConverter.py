@@ -1,4 +1,4 @@
-from os import listdir
+from os import listdir, remove
 from os.path import isfile, join
 from utils import uniform_sampling
 
@@ -20,5 +20,22 @@ compressionLevel = 42
 radius = 70
 
 directory = 'filePlyRete/'
-plyTotxt(directory, compressionLevel, radius)
+#plyTotxt(directory, compressionLevel, radius)
 
+"""
+n = 151
+txt = open("faceWarehouseImages.txt", "w+")
+for i in range(42, n):
+    for j in range(20):
+        txt.write("../faceWarehouse/Tester_" + str(i) + "/TrainingPose/Tester_" + str(i) + "_pose_" + str(j) + ".png" + "\n")
+
+
+files = [f for f in listdir(directory) if isfile(join(directory, f))]
+
+for file in files:
+    if (file[-17:] == "final_frontal.ply"):
+        continue
+    else:
+        remove(directory + file)
+        
+"""
