@@ -16,7 +16,7 @@ def plyTotxt(directory, compressionLevel=12, radius=25):
         uniform_sampling(directory, filename, compressionLevel, radius)
 
 
-compressionLevel = 16
+compressionLevel = 42
 radius = 70
 
 directory = 'filePlyRete/'

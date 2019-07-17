@@ -77,3 +77,27 @@ def uniform_sampling(directory, filename, compression_level=1, radius=25):
 
     print('elapsed time: ' + str(time.time() - start) + ' seconds.')
 
+
+def uniform_mat_sampling(pts, compression_level, tester, pose):
+
+    start = time.time()
+
+    np_pts = np.asarray(pts, dtype=list)
+    print("Length before sampling: " + str(np_pts.shape[0]))
+    nbrs = NearestNeighbors(n_neighbors=compression_level, algorithm='ball_tree').fit(np_pts)
+    distances, indices = nbrs.kneighbors(np_pts)
+
+    retained_idx = np.ones(np_pts.shape[0])
+    for i in range(np_pts.shape[0]):
+        if retained_idx[i] == 1:
+            retained_idx[indices[i][2:]] = 0
+
+    decimated_cloud = np_pts[retained_idx != 0]
+
+    with open('groundtruth/' + tester + '/' + tester + '_' + pose[:-4] + '.txt', 'w+') as f:
+        for el in decimated_cloud:
+            f.write(str(el[0]) + " " + str(el[1]) + " " + str(el[2]) + "\n")
+
+    print("Length after sampling: " + str(decimated_cloud.shape[0]))
+
+    print('elapsed time: ' + str(time.time() - start) + ' seconds.')

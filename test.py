@@ -73,7 +73,7 @@ def classification_test(testers, distance=None):
 
         end = time.time()
         print(str(end - start))
-        tr.write("Time elapsed: " + str(end - start))
+        tr.write("Elapsed time: " + str(end - start))
 
 
 def distancesTest(testers, poses):
@@ -135,8 +135,8 @@ def distancesTest(testers, poses):
         tr.write("Time elapsed: " + str(end - start))
 
 
-#caucasians = range(101, 142)
-caucasians = range(1, 2)
+caucasians = range(101, 111)
+#caucasians = range(1, 2)
 poses = [0]
 
 #classification_test(caucasians)

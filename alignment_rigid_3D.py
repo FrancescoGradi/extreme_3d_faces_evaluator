@@ -38,6 +38,8 @@ def saveData(iteration, error, X, Y):
 
 
 def alignment_rigid(target, source, visualization=False):
+
+    start = time.time()
     X = np.loadtxt(target)
     Y = np.loadtxt(source) #synthetic data, equaivalent to X + 1
 
@@ -55,4 +57,6 @@ def alignment_rigid(target, source, visualization=False):
         reg = rigid_registration(**{'X': X, 'Y': Y}, max_iterations=max_iterations)
         reg.register(callback)
 
-#alignment_rigid('groundtruth/Tester_3/Tester_3_pose_0.txt', 'data/Tester_3_pose_0_final_frontal.txt')
+    print('Elapsed time: ' + str(time.time() - start))
+
+# alignment_rigid('groundtruth/Tester_3/Tester_3_pose_0.txt', 'data/Tester_3_pose_0_final_frontal.txt')
