@@ -108,7 +108,7 @@ def distancesTest(testers, poses):
 
                 alignment_rigid(target, source)
 
-                distancesList = []
+                distancesDict = {}
 
                 print("Distance calculation of Tester " + str(tester) + " with pose " + str(pose)
                       + " from groundtruth to source")
@@ -122,11 +122,11 @@ def distancesTest(testers, poses):
                 tr.write("Median --> " + str(median) + "\n")
                 tr.write("Hausdorff distance --> " + str(hausdorff) + "\n")
 
-                distancesList.append(mn)
-                distancesList.append(avg)
-                distancesList.append(mx)
-                distancesList.append(median)
-                distancesList.append(hausdorff)
+                distancesDict["min_sg"] = mn
+                distancesDict["avg_sg"] = avg
+                distancesDict["max_sg"] = mx
+                distancesDict["median_sg"] = median
+                distancesDict["hausdorff_sg"] = hausdorff
 
                 tr.write("\n")
                 tr.write("Distances from source to groundtruth:" + "\n")
@@ -143,13 +143,13 @@ def distancesTest(testers, poses):
                 tr.write("Median --> " + str(median) + "\n")
                 tr.write("Hausdorff distance --> " + str(hausdorff) + "\n")
 
-                distancesList.append(mn)
-                distancesList.append(avg)
-                distancesList.append(mx)
-                distancesList.append(median)
-                distancesList.append(hausdorff)
+                distancesDict["min_gs"] = mn
+                distancesDict["avg_gs"] = avg
+                distancesDict["max_gs"] = mx
+                distancesDict["median_gs"] = median
+                distancesDict["hausdorff_gs"] = hausdorff
 
-                analytics["Tester_" + str(tester) + "_pose_" + str(pose)] = distancesList
+                analytics["Tester_" + str(tester) + "_pose_" + str(pose)] = distancesDict
 
         end = time.time()
         print(str(end - start))
@@ -162,7 +162,7 @@ def distancesTest(testers, poses):
 
 
 #caucasians = range(101, 111)
-caucasians = range(1, 2)
+caucasians = range(76, 77)
 poses = [0]
 
 #classification_test(caucasians)
