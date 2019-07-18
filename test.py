@@ -2,6 +2,8 @@ import time
 import json
 
 import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
 
 import matConverter
 import plyConverter
@@ -161,10 +163,66 @@ def distancesTest(testers, poses):
             json.dump(analytics, aj, indent=4)
 
 
+def posesPrecision(testers, poses):
+
+    with open("analytics.json", "r") as an:
+        analytics = json.load(an)
+
+        # Dizionario che contiene tutti i valori di riferimento della media delle distanze, in particolare viene preso
+        # come refernce la pose 0 (espressione neutra)
+
+        references = {}
+        for tester in testers:
+            avg_gs = analytics["Tester_" + str(tester) + "_pose_0"]["avg_gs"]
+            avg_sg = analytics["Tester_" + str(tester) + "_pose_0"]["avg_sg"]
+
+            references[tester] = (avg_gs + avg_sg)/2
+
+        # Per ogni posa calcola il rapporto con la media delle distanze medie di ciascun tester e rende una percentuale
+        # la quale rappresenta quanto rappresenta bene la posa rispetto al valore di riferimento (espressione neutra)
+
+        posesPercentage = []
+        for pose in poses[1:]:
+            poseAverage = 0
+            for tester in testers:
+                avg_gs = analytics["Tester_" + str(tester) + "_pose_" + str(pose)]["avg_gs"]
+                avg_sg = analytics["Tester_" + str(tester) + "_pose_" + str(pose)]["avg_sg"]
+
+                poseAverage += (((avg_gs + avg_sg)/2)/references[tester]) - 1
+            posesPercentage.append((poseAverage/len(testers)) * 100)
+
+        colors = []
+        for pose in posesPercentage:
+            if pose <= 0:
+                colors.append("g")
+            elif 0 < pose < 10:
+                colors.append("y")
+            else:
+                colors.append("r")
+
+        fig, ax = plt.subplots()
+
+        bars = plt.bar(x=np.asarray(poses[1:]), height=np.asarray(posesPercentage))
+        plt.xticks(np.asarray(poses[1:]))
+        plt.ylabel("Deviation from reference")
+        plt.xlabel("Poses")
+
+        for i in range(len(colors)):
+            bars[i].set_color(colors[i])
+
+        formatter = FuncFormatter(lambda y, pos: "%d%%" % (y))
+        ax.yaxis.set_major_formatter(formatter)
+
+        plt.title("Poses percentage precision")
+        plt.show()
+
+
 #caucasians = range(101, 111)
-caucasians = range(76, 77)
-poses = [0]
+caucasians = range(76, 78)
+poses = range(20)
+
+posesPrecision(caucasians, poses)
 
 #classification_test(caucasians)
 
-distancesTest(caucasians, poses)
+#distancesTest(caucasians, poses)
