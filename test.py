@@ -1,4 +1,5 @@
 import time
+import json
 
 import numpy as np
 
@@ -88,6 +89,8 @@ def distancesTest(testers, poses):
                  + "\n")
         tr.write("-radius from nose = " + str(plyConverter.radius) + "\n")
 
+        analytics = {}
+
         for tester in testers:
             for pose in poses:
 
@@ -105,6 +108,8 @@ def distancesTest(testers, poses):
 
                 alignment_rigid(target, source)
 
+                distancesList = []
+
                 print("Distance calculation of Tester " + str(tester) + " with pose " + str(pose)
                       + " from groundtruth to source")
 
@@ -116,6 +121,12 @@ def distancesTest(testers, poses):
                 tr.write("Max --> " + str(mx) + "\n")
                 tr.write("Median --> " + str(median) + "\n")
                 tr.write("Hausdorff distance --> " + str(hausdorff) + "\n")
+
+                distancesList.append(mn)
+                distancesList.append(avg)
+                distancesList.append(mx)
+                distancesList.append(median)
+                distancesList.append(hausdorff)
 
                 tr.write("\n")
                 tr.write("Distances from source to groundtruth:" + "\n")
@@ -132,15 +143,26 @@ def distancesTest(testers, poses):
                 tr.write("Median --> " + str(median) + "\n")
                 tr.write("Hausdorff distance --> " + str(hausdorff) + "\n")
 
+                distancesList.append(mn)
+                distancesList.append(avg)
+                distancesList.append(mx)
+                distancesList.append(median)
+                distancesList.append(hausdorff)
+
+                analytics["Tester_" + str(tester) + "_pose_" + str(pose)] = distancesList
+
         end = time.time()
         print(str(end - start))
         tr.write("\n")
         tr.write("\n")
         tr.write("Time elapsed: " + str(end - start))
 
+        with open("analytics.json", "w+") as aj:
+            json.dump(analytics, aj, indent=4)
 
-caucasians = range(101, 111)
-#caucasians = range(1, 2)
+
+#caucasians = range(101, 111)
+caucasians = range(1, 2)
 poses = [0]
 
 #classification_test(caucasians)

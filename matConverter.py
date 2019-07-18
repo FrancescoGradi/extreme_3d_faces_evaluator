@@ -77,7 +77,7 @@ def matTotxt(directory, compressionLevel=2, radius=75):
             uniform_mat_sampling(pts, compressionLevel, tester, pose)
 
 
-compressionLevel = 3
+compressionLevel = 5
 radius = 70
 
 directory = 'faceWarehouse/'

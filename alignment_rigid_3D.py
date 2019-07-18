@@ -5,7 +5,7 @@ from pycpd import rigid_registration
 import numpy as np
 import time, sys
 
-max_iterations = 25
+max_iterations = 40
 
 
 def saveNormalizedTxt(Y):
