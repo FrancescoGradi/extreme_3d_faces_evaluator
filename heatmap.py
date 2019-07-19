@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 from mpl_toolkits.mplot3d import Axes3D
 from alignment_rigid_3D import alignment_rigid
+import open3d as o3d
 
 
 def generate_heatmap(aligned_cloud_path, gt_path):
@@ -58,9 +59,34 @@ def generate_heatmap(aligned_cloud_path, gt_path):
     plt.colorbar(AX)
     plt.show()
 
+def open3Dheatmap(aligned_cloud_path, gt_path):
+
+    with open(aligned_cloud_path, "r") as ac:
+        lines = ac.readlines()
+
+        print(len(lines))
+
+        with open("heatmap.pcd", "w+") as hm:
+            hm.write("VERSION .7" + "\n")
+            hm.write("FIELDS x y z rgb" + "\n")
+            hm.write("POINTS " + str(len(lines)) + "\n")
+            hm.write("DATA ascii" + "\n")
+
+            for line in lines:
+                coords = line.split(sep=" ")
+                hm.write(coords[0] + " " + coords[1] + " " + coords[2] + " " + str(0) + "\n")
+                #hm.write(line)
+
+        pcd = o3d.io.read_point_cloud("heatmap.pcd")
+        o3d.visualization.draw_geometries([pcd])
+
 
 target = 'groundtruth/Tester_1/Tester_1_pose_0.txt'
 source = "data/Tester_1_pose_0_final_frontal.txt"
-alignment_rigid(target, source)
-generate_heatmap('output.txt', target)
+#alignment_rigid(target, source)
+#generate_heatmap('output.txt', target)
 
+#pcd = o3d.io.read_point_cloud("data/Tester_1_pose_0_final_frontal.pcd")
+#o3d.visualization.draw_geometries([pcd])
+
+open3Dheatmap("output.txt", target)
