@@ -178,6 +178,12 @@ def posesPrecision(testers, poses):
 
             references[tester] = (avg_gs + avg_sg)/2
 
+        sum = 0
+        for key in references.keys():
+            sum += references[key]
+
+        print(sum/(len(references.keys())))
+
         # Per ogni posa calcola il rapporto con la media delle distanze medie di ciascun tester e rende una percentuale
         # la quale rappresenta quanto rappresenta bene la posa rispetto al valore di riferimento (espressione neutra)
 
@@ -193,12 +199,16 @@ def posesPrecision(testers, poses):
 
         colors = []
         for pose in posesPercentage:
-            if pose <= 0:
-                colors.append("g")
-            elif 0 < pose < 10:
-                colors.append("y")
-            else:
-                colors.append("r")
+            if pose <= 5:
+                colors.append("green")
+            elif 5 < pose < 10:
+                colors.append("limegreen")
+            elif 10 < pose < 20:
+                colors.append("yellow")
+            elif 20 <= pose < 30:
+                colors.append("orange")
+            elif pose >= 30:
+                colors.append("red")
 
         fig, ax = plt.subplots()
 
@@ -218,10 +228,15 @@ def posesPrecision(testers, poses):
 
 
 #caucasians = range(101, 111)
-caucasians = range(76, 78)
+#caucasians = range(76, 151)
 poses = range(20)
 
-posesPrecision(caucasians, poses)
+testers = []
+for i in range(101, 142):
+    if i is not 89:
+        testers.append(i)
+
+posesPrecision(testers, poses)
 
 #classification_test(caucasians)
 
