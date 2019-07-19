@@ -59,12 +59,27 @@ def generate_heatmap(aligned_cloud_path, gt_path):
     plt.colorbar(AX)
     plt.show()
 
+
 def open3Dheatmap(aligned_cloud_path, gt_path):
 
     with open(aligned_cloud_path, "r") as ac:
         lines = ac.readlines()
 
-        print(len(lines))
+        pointsAC = []
+        for line in lines:
+            pointsAC.append(Point3D.Point3D(line))
+
+        with open(gt_path, 'r') as gt:
+            gt_lines = gt.readlines()
+            pointsGT = []
+            for gt_line in gt_lines:
+                pointsGT.append(Point3D.Point3D(gt_line))
+
+        mins = []
+        for pt_ac in pointsAC:
+            mins.append(min([pt_ac.distance(pt_gt) for pt_gt in pointsGT]))
+
+        print(mins)
 
         with open("heatmap.pcd", "w+") as hm:
             hm.write("VERSION .7" + "\n")
@@ -72,10 +87,11 @@ def open3Dheatmap(aligned_cloud_path, gt_path):
             hm.write("POINTS " + str(len(lines)) + "\n")
             hm.write("DATA ascii" + "\n")
 
+            i = 0
             for line in lines:
                 coords = line.split(sep=" ")
-                hm.write(coords[0] + " " + coords[1] + " " + coords[2] + " " + str(0) + "\n")
-                #hm.write(line)
+                hm.write(coords[0] + " " + coords[1] + " " + coords[2] + " " + str(mins[i]) + "\n")
+                i += 1
 
         pcd = o3d.io.read_point_cloud("heatmap.pcd")
         o3d.visualization.draw_geometries([pcd])
