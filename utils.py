@@ -4,6 +4,9 @@ import time
 import re
 from sklearn.neighbors import NearestNeighbors
 
+import sys
+EPSILON = sys.float_info.epsilon
+
 
 def is_in_range(radius, x, y, z, x_center=-1.8155, y_center=-7.8562, z_center=133.009995):
 
@@ -11,6 +14,18 @@ def is_in_range(radius, x, y, z, x_center=-1.8155, y_center=-7.8562, z_center=13
         return True
     else:
         return False
+
+    with open("heatmap.pcd", "w+") as hm:
+        hm.write("VERSION .7" + "\n")
+        hm.write("FIELDS x y z rgb" + "\n")
+        hm.write("POINTS " + str(len(lines)) + "\n")
+        hm.write("DATA ascii" + "\n")
+
+        i = 0
+        for line in lines:
+            coords = line.split(sep=" ")
+            hm.write(coords[0] + " " + coords[1] + " " + coords[2] + " " + str(0) + "\n")
+            i += 1
 
 
 def distances(f_pts, f_len):
@@ -101,3 +116,17 @@ def uniform_mat_sampling(pts, compression_level, tester, pose):
     print("Length after sampling: " + str(decimated_cloud.shape[0]))
 
     print('elapsed time: ' + str(time.time() - start) + ' seconds.')
+
+
+def rgb(val, minval=0, maxval=80):
+
+    colors = [(255, 0, 0), (255, 255, 0), (0, 255, 0)]
+
+    i_f = float(val-minval) / float(maxval-minval) * (len(colors)-1)
+    i, f = int(i_f // 1), i_f % 1
+
+    if f < EPSILON:
+        return colors[i]
+    else:
+        (r1, g1, b1), (r2, g2, b2) = colors[i], colors[i+1]
+        return int(r1 + f*(r2-r1)), int(g1 + f*(g2-g1)), int(b1 + f*(b2-b1))

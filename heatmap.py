@@ -4,6 +4,9 @@ import matplotlib.colors as colors
 from mpl_toolkits.mplot3d import Axes3D
 from alignment_rigid_3D import alignment_rigid
 import open3d as o3d
+import numpy as np
+import copy
+from utils import rgb
 
 
 def generate_heatmap(aligned_cloud_path, gt_path):
@@ -79,30 +82,45 @@ def open3Dheatmap(aligned_cloud_path, gt_path):
         for pt_ac in pointsAC:
             mins.append(min([pt_ac.distance(pt_gt) for pt_gt in pointsGT]))
 
-        print(mins)
+        max_mins = max(mins)
+        min_mins = min(mins)
 
-        with open("heatmap.pcd", "w+") as hm:
-            hm.write("VERSION .7" + "\n")
-            hm.write("FIELDS x y z rgb" + "\n")
-            hm.write("POINTS " + str(len(lines)) + "\n")
-            hm.write("DATA ascii" + "\n")
+        if min_mins > 0.5:
+            min_mins = 0
 
-            i = 0
-            for line in lines:
-                coords = line.split(sep=" ")
-                hm.write(coords[0] + " " + coords[1] + " " + coords[2] + " " + str(mins[i]) + "\n")
-                i += 1
+        points = np.zeros((len(lines), 3))
+        colours = np.zeros((len(lines), 3))
 
-        pcd = o3d.io.read_point_cloud("heatmap.pcd")
+        i = 0
+        for line in lines:
+            coords = line.split(sep=" ")
+
+            points[i, 0] = float(coords[0])
+            points[i, 1] = float(coords[1])
+            points[i, 2] = float(coords[2])
+
+            r, g, b = rgb(val=mins[i], minval=min_mins, maxval=max_mins)
+
+            colours[i, 0] = r / 255
+            colours[i, 1] = g / 255
+            colours[i, 2] = b / 255
+
+            i += 1
+
+        print("Red --> " + str(min_mins))
+        print("Yellow --> " + str((max_mins + min_mins) / 2))
+        print("Green --> " + str(max_mins))
+
+        pcd = o3d.geometry.PointCloud()
+
+        pcd.points = o3d.utility.Vector3dVector(points)
+        pcd.colors = o3d.utility.Vector3dVector(colours)
+
         o3d.visualization.draw_geometries([pcd])
 
 
-target = 'groundtruth/Tester_1/Tester_1_pose_0.txt'
-source = "data/Tester_1_pose_0_final_frontal.txt"
-#alignment_rigid(target, source)
-#generate_heatmap('output.txt', target)
-
-#pcd = o3d.io.read_point_cloud("data/Tester_1_pose_0_final_frontal.pcd")
-#o3d.visualization.draw_geometries([pcd])
+target = 'groundtruth/Tester_141/Tester_141_pose_1.txt'
+source = "data/Tester_141_pose_1_final_frontal.txt"
+alignment_rigid(target, source)
 
 open3Dheatmap("output.txt", target)
