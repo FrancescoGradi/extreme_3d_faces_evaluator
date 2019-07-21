@@ -93,74 +93,76 @@ def distancesTest(testers, poses):
 
         analytics = {}
 
-        for tester in testers:
-            for pose in poses:
-
-                source = "data/Tester_" + str(tester) + "_pose_" + str(pose) + "_final_frontal.txt"
-                target = "groundtruth/Tester_" + str(tester) + "/Tester_" + str(tester) + "_pose_" + str(pose) + ".txt"
-
-                tr.write("\n")
-                tr.write("\n")
-                tr.write("Tester " + str(tester) + " with pose " + str(pose) + "\n")
-
-                tr.write("\n")
-                tr.write("Distances from groundtruth to source:" + "\n")
-
-                print("Alignment " + str(tester) + " with pose " + str(pose))
-
-                alignment_rigid(target, source)
-
-                distancesDict = {}
-
-                print("Distance calculation of Tester " + str(tester) + " with pose " + str(pose)
-                      + " from groundtruth to source")
-
-                mn, avg, mx, median = averageDistance(target, "output.txt")
-                hausdorff = hausdorffDistance(target, "output.txt")
-
-                tr.write("Min --> " + str(mn) + "\n")
-                tr.write("Average --> " + str(avg) + "\n")
-                tr.write("Max --> " + str(mx) + "\n")
-                tr.write("Median --> " + str(median) + "\n")
-                tr.write("Hausdorff distance --> " + str(hausdorff) + "\n")
-
-                distancesDict["min_sg"] = mn
-                distancesDict["avg_sg"] = avg
-                distancesDict["max_sg"] = mx
-                distancesDict["median_sg"] = median
-                distancesDict["hausdorff_sg"] = hausdorff
-
-                tr.write("\n")
-                tr.write("Distances from source to groundtruth:" + "\n")
-
-                print("Distance calculation of Tester " + str(tester) + " with pose " + str(pose)
-                      + " from source to groundtruth")
-
-                mn, avg, mx, median = averageDistance("output.txt", target)
-                hausdorff = hausdorffDistance("output.txt", target)
-
-                tr.write("Min --> " + str(mn) + "\n")
-                tr.write("Average --> " + str(avg) + "\n")
-                tr.write("Max --> " + str(mx) + "\n")
-                tr.write("Median --> " + str(median) + "\n")
-                tr.write("Hausdorff distance --> " + str(hausdorff) + "\n")
-
-                distancesDict["min_gs"] = mn
-                distancesDict["avg_gs"] = avg
-                distancesDict["max_gs"] = mx
-                distancesDict["median_gs"] = median
-                distancesDict["hausdorff_gs"] = hausdorff
-
-                analytics["Tester_" + str(tester) + "_pose_" + str(pose)] = distancesDict
-
-        end = time.time()
-        print(str(end - start))
-        tr.write("\n")
-        tr.write("\n")
-        tr.write("Time elapsed: " + str(end - start))
-
         with open("analytics.json", "w+") as aj:
-            json.dump(analytics, aj, indent=4)
+
+            for tester in testers:
+                for pose in poses:
+
+                    source = "data/Tester_" + str(tester) + "_pose_" + str(pose) + "_final_frontal.txt"
+                    target = "groundtruth/Tester_" + str(tester) + "/Tester_" + str(tester) + "_pose_" + str(pose) + ".txt"
+
+                    tr.write("\n")
+                    tr.write("\n")
+                    tr.write("Tester " + str(tester) + " with pose " + str(pose) + "\n")
+
+                    tr.write("\n")
+                    tr.write("Distances from groundtruth to source:" + "\n")
+
+                    print("Alignment " + str(tester) + " with pose " + str(pose))
+
+                    alignment_rigid(target, source)
+
+                    distancesDict = {}
+
+                    print("Distance calculation of Tester " + str(tester) + " with pose " + str(pose)
+                          + " from groundtruth to source")
+
+                    mn, avg, mx, median = averageDistance(target, "output.txt")
+                    hausdorff = hausdorffDistance(target, "output.txt")
+
+                    tr.write("Min --> " + str(mn) + "\n")
+                    tr.write("Average --> " + str(avg) + "\n")
+                    tr.write("Max --> " + str(mx) + "\n")
+                    tr.write("Median --> " + str(median) + "\n")
+                    tr.write("Hausdorff distance --> " + str(hausdorff) + "\n")
+
+                    distancesDict["min_sg"] = mn
+                    distancesDict["avg_sg"] = avg
+                    distancesDict["max_sg"] = mx
+                    distancesDict["median_sg"] = median
+                    distancesDict["hausdorff_sg"] = hausdorff
+
+                    tr.write("\n")
+                    tr.write("Distances from source to groundtruth:" + "\n")
+
+                    print("Distance calculation of Tester " + str(tester) + " with pose " + str(pose)
+                          + " from source to groundtruth")
+
+                    mn, avg, mx, median = averageDistance("output.txt", target)
+                    hausdorff = hausdorffDistance("output.txt", target)
+
+                    tr.write("Min --> " + str(mn) + "\n")
+                    tr.write("Average --> " + str(avg) + "\n")
+                    tr.write("Max --> " + str(mx) + "\n")
+                    tr.write("Median --> " + str(median) + "\n")
+                    tr.write("Hausdorff distance --> " + str(hausdorff) + "\n")
+
+                    distancesDict["min_gs"] = mn
+                    distancesDict["avg_gs"] = avg
+                    distancesDict["max_gs"] = mx
+                    distancesDict["median_gs"] = median
+                    distancesDict["hausdorff_gs"] = hausdorff
+
+                    analytics["Tester_" + str(tester) + "_pose_" + str(pose)] = distancesDict
+
+                json.dump(analytics, aj, indent=4)
+                analytics.clear()
+
+            end = time.time()
+            print(str(end - start))
+            tr.write("\n")
+            tr.write("\n")
+            tr.write("Time elapsed: " + str(end - start))
 
 
 def posesPrecision(testers, poses):
@@ -227,17 +229,9 @@ def posesPrecision(testers, poses):
         plt.show()
 
 
-#caucasians = range(101, 111)
-#caucasians = range(76, 151)
+caucasians = range(5, 6)
 poses = range(20)
-
-testers = []
-for i in range(101, 142):
-    if i is not 89:
-        testers.append(i)
-
-posesPrecision(testers, poses)
-
 #classification_test(caucasians)
 
-#distancesTest(caucasians, poses)
+distancesTest(caucasians, poses)
+posesPrecision(caucasians, poses)

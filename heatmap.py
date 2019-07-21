@@ -72,55 +72,55 @@ def open3Dheatmap(aligned_cloud_path, gt_path):
         for line in lines:
             pointsAC.append(Point3D.Point3D(line))
 
-        with open(gt_path, 'r') as gt:
-            gt_lines = gt.readlines()
-            pointsGT = []
-            for gt_line in gt_lines:
-                pointsGT.append(Point3D.Point3D(gt_line))
+    with open(gt_path, 'r') as gt:
+        gt_lines = gt.readlines()
+        pointsGT = []
+        for gt_line in gt_lines:
+            pointsGT.append(Point3D.Point3D(gt_line))
 
-        mins = []
-        for pt_ac in pointsAC:
-            mins.append(min([pt_ac.distance(pt_gt) for pt_gt in pointsGT]))
+    mins = []
+    for pt_ac in pointsAC:
+        mins.append(min([pt_ac.distance(pt_gt) for pt_gt in pointsGT]))
 
-        max_mins = max(mins)
-        min_mins = min(mins)
+    max_mins = max(mins)
+    min_mins = min(mins)
 
-        if min_mins > 0.5:
-            min_mins = 0
+    if min_mins > 0.5:
+        min_mins = 0
 
-        points = np.zeros((len(lines), 3))
-        colours = np.zeros((len(lines), 3))
+    points = np.zeros((len(lines), 3))
+    colours = np.zeros((len(lines), 3))
 
-        i = 0
-        for line in lines:
-            coords = line.split(sep=" ")
+    i = 0
+    for line in lines:
+        coords = line.split(sep=" ")
 
-            points[i, 0] = float(coords[0])
-            points[i, 1] = float(coords[1])
-            points[i, 2] = float(coords[2])
+        points[i, 0] = float(coords[0])
+        points[i, 1] = float(coords[1])
+        points[i, 2] = float(coords[2])
 
-            r, g, b = rgb(val=mins[i], minval=min_mins, maxval=max_mins)
+        r, g, b = rgb(val=mins[i], minval=min_mins, maxval=max_mins)
 
-            colours[i, 0] = r / 255
-            colours[i, 1] = g / 255
-            colours[i, 2] = b / 255
+        colours[i, 0] = r / 255
+        colours[i, 1] = g / 255
+        colours[i, 2] = b / 255
 
-            i += 1
+        i += 1
 
-        print("Red --> " + str(min_mins))
-        print("Yellow --> " + str((max_mins + min_mins) / 2))
-        print("Green --> " + str(max_mins))
+    print("Red --> " + str(min_mins))
+    print("Yellow --> " + str((max_mins + min_mins) / 2))
+    print("Green --> " + str(max_mins))
 
-        pcd = o3d.geometry.PointCloud()
+    pcd = o3d.geometry.PointCloud()
 
-        pcd.points = o3d.utility.Vector3dVector(points)
-        pcd.colors = o3d.utility.Vector3dVector(colours)
+    pcd.points = o3d.utility.Vector3dVector(points)
+    pcd.colors = o3d.utility.Vector3dVector(colours)
 
-        o3d.visualization.draw_geometries([pcd])
+    o3d.visualization.draw_geometries([pcd])
 
 
-target = 'groundtruth/Tester_141/Tester_141_pose_1.txt'
-source = "data/Tester_141_pose_1_final_frontal.txt"
-alignment_rigid(target, source)
+target = 'groundtruth/Tester_1/Tester_1_pose_1.txt'
+source = "data/Tester_1_pose_1_final_frontal.txt"
+#alignment_rigid(target, source)
 
 open3Dheatmap("output.txt", target)

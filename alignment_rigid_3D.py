@@ -59,5 +59,3 @@ def alignment_rigid(target, source, visualization=False):
         reg.register(callback)
 
     print('Elapsed time: ' + str(time.time() - start))
-
-# alignment_rigid('groundtruth/Tester_3/Tester_3_pose_0.txt', 'data/Tester_3_pose_0_final_frontal.txt')

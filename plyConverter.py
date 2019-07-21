@@ -20,7 +20,7 @@ compressionLevel = 72
 radius = 70
 
 directory = 'filePlyRete/'
-plyTotxt(directory, compressionLevel, radius)
+#plyTotxt(directory, compressionLevel, radius)
 
 """
 n = 151

@@ -1,3 +1,4 @@
+import re, os
 import numpy as np
 import math
 import time
@@ -118,9 +119,34 @@ def uniform_mat_sampling(pts, compression_level, tester, pose):
     print('elapsed time: ' + str(time.time() - start) + ' seconds.')
 
 
+def add_missing_gt(testers, poses):
+
+    for tester in testers:
+
+        path = 'groundtruth/Tester_' + str(tester) + '/'
+        for pose in poses:
+            if 'Tester_' + str(tester) + '_pose_' + str(pose) + '.txt' \
+                    not in os.listdir(path):
+                shutil.copyfile('groundtruth/Tester_' + str(tester) + '/Tester_' + str(tester) + '_pose_0.txt',
+                               'groundtruth/Tester_' + str(tester) + '/Tester_' + str(tester) + '_pose_' + str(pose) + '.txt')
+                print('Missing file ' + str(pose) + ' for tester ' + str(tester))
+
+
+def find_missing_poses():
+
+    path = 'data/'
+
+    for tester in range(1, 76):
+        for pose in range(20):
+            if 'Tester_' + str(tester) + '_pose_' + str(pose) + '_final_frontal.txt' not in os.listdir(path):
+                print('Missing pose ' + str(pose) + ' of tester ' + str(tester))
+
+
+
 def rgb(val, minval=0, maxval=80):
 
-    colors = [(255, 0, 0), (255, 255, 0), (0, 255, 0)]
+    colors = [(255, 0, 0), (255, 127, 0), (255, 255, 0), (0, 255, 0), (0, 255, 255), (0, 0, 255), (75, 0, 130), (148, 0, 211)]
+    # respectively: red, orange, yellow, green, light blue, blue, purple, violet
 
     i_f = float(val-minval) / float(maxval-minval) * (len(colors)-1)
     i, f = int(i_f // 1), i_f % 1
