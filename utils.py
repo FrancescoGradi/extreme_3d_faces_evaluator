@@ -16,18 +16,6 @@ def is_in_range(radius, x, y, z, x_center=-1.8155, y_center=-7.8562, z_center=13
     else:
         return False
 
-    with open("heatmap.pcd", "w+") as hm:
-        hm.write("VERSION .7" + "\n")
-        hm.write("FIELDS x y z rgb" + "\n")
-        hm.write("POINTS " + str(len(lines)) + "\n")
-        hm.write("DATA ascii" + "\n")
-
-        i = 0
-        for line in lines:
-            coords = line.split(sep=" ")
-            hm.write(coords[0] + " " + coords[1] + " " + coords[2] + " " + str(0) + "\n")
-            i += 1
-
 
 def distances(f_pts, f_len):
     dists = [[] for x in range(f_len)]

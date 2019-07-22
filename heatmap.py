@@ -108,8 +108,13 @@ def open3Dheatmap(aligned_cloud_path, gt_path):
         i += 1
 
     print("Red --> " + str(min_mins))
-    print("Yellow --> " + str((max_mins + min_mins) / 2))
-    print("Green --> " + str(max_mins))
+    print("Orange -- > " + str((max_mins + min_mins) * 2 / 8))
+    print("Yellow -- > " + str((max_mins + min_mins) * 3 / 8))
+    print("Green -- > " + str((max_mins + min_mins) * 4 / 8))
+    print("Light Blue -- > " + str((max_mins + min_mins) * 5 / 8))
+    print("Blue -- > " + str((max_mins + min_mins) * 6 / 8))
+    print("Purple -- > " + str((max_mins + min_mins) * 7 / 8))
+    print("Violet --> " + str(max_mins))
 
     pcd = o3d.geometry.PointCloud()
 
