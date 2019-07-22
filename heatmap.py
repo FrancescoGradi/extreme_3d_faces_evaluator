@@ -5,7 +5,6 @@ from mpl_toolkits.mplot3d import Axes3D
 from alignment_rigid_3D import alignment_rigid
 import open3d as o3d
 import numpy as np
-import copy
 from utils import rgb
 
 
@@ -124,8 +123,11 @@ def open3Dheatmap(aligned_cloud_path, gt_path):
     o3d.visualization.draw_geometries([pcd])
 
 
-target = 'groundtruth/Tester_1/Tester_1_pose_1.txt'
-source = "data/Tester_1_pose_1_final_frontal.txt"
-#alignment_rigid(target, source)
+tester = 1
+pose = 0
+
+target = "groundtruth/Tester_" + str(tester) + "/Tester_" + str(tester) + "_pose_" + str(pose) + ".txt"
+source = "data/Tester_" + str(tester) + "_pose_" + str(pose) + "_final_frontal.txt"
+alignment_rigid(target, source)
 
 open3Dheatmap("output.txt", target)
