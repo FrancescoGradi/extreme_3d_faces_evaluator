@@ -3,9 +3,9 @@ The project's aim is to compare the results obtained with the pretrained Extreme
 Faces CNN (https://github.com/anhttran/extreme_3d_faces) and a ground truth using a 
 well-known dataset (http://kunzhou.net/zjugaps/facewarehouse/) to measure the 
 similarity between the two models and, hence, estimate the performance of the net.
-<img src="images/face111_4.png" width=200 height=200></img>
-<img src="images/face111_4_ply.png" width=200 height=200></img>
-<img src="images/face111_4_heatmap.png" width=200 height=200></img>
+<img src="images/face111_4.png" width=250 height=250></img>
+<img src="images/face111_4_ply.png" width=250 height=250></img>
+<img src="images/face111_4_heatmap.png" width=250 height=250></img>
 
 ## Dependencies
 To build and run the files, you will need the following libraries:
