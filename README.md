@@ -71,6 +71,9 @@ while `source` stands for the CNN `.txt` model file path.
 
 ## References
 
+* <i>Tran, Anh Tuan and Hassner, Tal and Masi, Iacopo and Paz, Eran and Nirkin, Yuval and Medioni, Gerard</i>, Extreme 
+3D Face Reconstruction: Seeing Through Occlusions, IEEE Conf. on Computer Vision and Pattern Recognition (CVPR), 2018.
+
 * <i>Andriy Myronenko and Xubo Song</i>, Point Set Registration: Coherent Point Drift, IEEE Trans. on Pattern Analysis
  and Machine Intelligence, vol. 32, issue 12, pp. 2262-2275, 2009.
 
