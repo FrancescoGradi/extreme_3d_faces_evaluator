@@ -1,8 +1,9 @@
 # PreprocessingFace2Dto3D
 The project's aim is to compare the results obtained with the pretrained Extreme 3D 
-Faces CNN (https://github.com/anhttran/extreme_3d_faces) and a ground truth using a 
-well-known dataset (http://kunzhou.net/zjugaps/facewarehouse/) to measure the 
-similarity between the two models and, hence, estimate the performance of the net.
+Faces CNN (https://github.com/anhttran/extreme_3d_faces) [1] and a ground truth using a 
+well-known dataset (http://kunzhou.net/zjugaps/facewarehouse/) [2] to measure the 
+similarity between the two models and, hence, estimate the performance of the net. The 
+aligment phase is realized with cpd rigid algorithm [3].
 
 <div>
 <p align="center">
@@ -71,13 +72,15 @@ while `source` stands for the CNN `.txt` model file path.
 
 ## References
 
-* <i>Tran, Anh Tuan and Hassner, Tal and Masi, Iacopo and Paz, Eran and Nirkin, Yuval and Medioni, Gerard</i>, Extreme 
-3D Face Reconstruction: Seeing Through Occlusions, IEEE Conf. on Computer Vision and Pattern Recognition (CVPR), 2018.
+[1] <i>A. Tran, T. Hassner, I. Masi, E. Paz, Y. Nirkin, G. Medioni</i>, Extreme 3D Face Reconstruction: Seeing Through 
+Occlusions, IEEE Conf. on Computer Vision and Pattern Recognition (CVPR), 2018.
 
-* <i>Andriy Myronenko and Xubo Song</i>, Point Set Registration: Coherent Point Drift, IEEE Trans. on Pattern Analysis
- and Machine Intelligence, vol. 32, issue 12, pp. 2262-2275, 2009.
-
-* <i>Cao Chen, Yanlin Weng, Shun Zhou, Yiying Tong, Kun Zhou</i>: "FaceWarehouse: a 3D Facial
+[2] <i>Cao Chen, Yanlin Weng, Shun Zhou, Yiying Tong, Kun Zhou</i>: "FaceWarehouse: a 3D Facial
  Expression Database for Visual Computing", IEEE Transactions on Visualization and 
  Computer Graphics, 20(3): 413-425, 2014.
+ 
+[3] <i>Andriy Myronenko and Xubo Song</i>, Point Set Registration: Coherent Point Drift, IEEE Trans. on Pattern Analysis
+ and Machine Intelligence, vol. 32, issue 12, pp. 2262-2275, 2009.
+
+
  
