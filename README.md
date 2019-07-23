@@ -3,21 +3,26 @@ The project's aim is to compare the results obtained with the pretrained Extreme
 Faces CNN (https://github.com/anhttran/extreme_3d_faces) and a ground truth using a 
 well-known dataset (http://kunzhou.net/zjugaps/facewarehouse/) to measure the 
 similarity between the two models and, hence, estimate the performance of the net.
-<img src="images/face111_4.png" width=250 height=250></img>
-<img src="images/arrow.png" width=50 height=250></img>
-<img src="images/face111_4_ply.png" width=250 height=250></img>
-<img src="images/arrow.png" width=50 height=250></img>
-<img src="images/face111_4_heatmap.png" width=250 height=250></img>
+
+<div>
+<p align="center">
+<img src="images/face111_4.png" width="25%" height=auto></img>
+<img src="images/arrow.png" width="5%" height=auto></img>
+<img src="images/face111_4_ply.png" width="25%" height=auto></img>
+<img src="images/arrow.png" width="5%" height=auto></img>
+<img src="images/face111_4_heatmap.png" width="25%" height=auto></img>
+</p>
+<div/>
 
 ## Dependencies
 To build and run the files, you will need the following libraries:
-- scikit-learn
-- matplotlib
-- pycpd
-- numpy
-- open3d
-- scipy
-- h5py
+- scikit-learn 0.21.2
+- matplotlib 3.1.1
+- pycpd 1.0.5
+- numpy 1.16.2
+- open3d-python 0.7.0.0
+- scipy 1.3.0
+- h5py 2.9.0
 
 ## How to make it work
 To run the whole project, you are required to follow some steps. The parameters of 
@@ -47,14 +52,14 @@ in the `heatmap.py` file.
 - `plyTotxt()`: `directory` stands for the directory where you can find the `.ply` 
 files. If you follow the steps above, this should be set to `'filePlyRete/'`; 
 `compressionLevel` stands for the sampling parameter `K` of the KNNSearch algorithm: 
-since a single model has over 130.000 points, you will probably need to sample 
+since a single model has over 170.000 points, you will probably need to sample 
 the model (depending on your hardware). If you have a single-node cluster, we 
 recommend you to leave this parameter to its default value; `radius` stands for 
 the maximum distance (from the nose tip) of the useful points: the CNN we've 
-used doesn't reconstruct the ears, while the ground truth models have also those 
-points so, to make the results valid, we've focused just on the face setting this 
+used reconstructs the ears, while the ground truth models have not also those 
+points so, to achieve a better alignment, we've focused just on the face setting this 
 parameter properly.
-- `MatTotxt()`: same as `plyTotxt()`
+- `MatTotxt()`: same as `plyTotxt()`, but with ground truth Matlab files.
 - `distancesTest()`: the FaceWarehouse dataset is structured this way: there are 150 
 candidates and 20 poses for each candidate. This means we can choose a subset of the 
 candidates and also a subset of poses to run the test. `testers` and `poses` are 
@@ -63,3 +68,13 @@ want to test.
 - `posesPrecision()`: same as `distancesTest()`
 - `open3Dheatmap()`: `target` stands for the ground truth `.txt` model file path, 
 while `source` stands for the CNN `.txt` model file path.
+
+## References
+
+* <i>Andriy Myronenko and Xubo Song</i>, Point Set Registration: Coherent Point Drift, IEEE Trans. on Pattern Analysis
+ and Machine Intelligence, vol. 32, issue 12, pp. 2262-2275, 2009.
+
+* <i>Cao Chen, Yanlin Weng, Shun Zhou, Yiying Tong, Kun Zhou</i>: "FaceWarehouse: a 3D Facial
+ Expression Database for Visual Computing", IEEE Transactions on Visualization and 
+ Computer Graphics, 20(3): 413-425, 2014.
+ 
