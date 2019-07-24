@@ -1,9 +1,9 @@
-# An Evaluator for Extreme 3D Face Reconstruction with Facewarehouse ground truth
-The project's aim is to compare the results obtained with the pretrained Extreme 3D 
-Faces CNN (https://github.com/anhttran/extreme_3d_faces) [1] and a ground truth using a 
-well-known dataset (http://kunzhou.net/zjugaps/facewarehouse/) [2] to measure the 
-similarity between the two models and, hence, estimate the performance of the net. The 
-aligment phase is realized with cpd rigid algorithm [3].
+# An Evaluator for _Extreme 3D Face Reconstruction_ with _Facewarehouse_ ground truth
+The project's aim is to compare the results obtained with the pretrained **Extreme 3D 
+Faces CNN** (https://github.com/anhttran/extreme_3d_faces) [1] and a ground truth using a 
+well-known **dataset** (http://kunzhou.net/zjugaps/facewarehouse/) [2] to measure the 
+**similarity** between the two models and, hence, estimate the performance of the net. The 
+aligment phase is realized with **cpd** rigid algorithm [3].
 
 <div>
 <p align="center">
