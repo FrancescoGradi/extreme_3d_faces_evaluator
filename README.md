@@ -1,4 +1,4 @@
-# PreprocessingFace2Dto3D
+# An Evaluator for Extreme 3D Face Reconstruction with Facewarehouse ground truth
 The project's aim is to compare the results obtained with the pretrained Extreme 3D 
 Faces CNN (https://github.com/anhttran/extreme_3d_faces) [1] and a ground truth using a 
 well-known dataset (http://kunzhou.net/zjugaps/facewarehouse/) [2] to measure the 
